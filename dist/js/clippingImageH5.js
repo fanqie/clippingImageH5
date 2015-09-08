@@ -43,6 +43,7 @@ widnow.$Clip = {};
 
     };
 })();
+
 (function(){
     /*configMap={
          elem:mycanvas,
