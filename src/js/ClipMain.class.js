@@ -1,4 +1,6 @@
-var $Clip = Object.create(null);
+
 (function(){
+widnow.$Clip = {};
+
 
 })();
