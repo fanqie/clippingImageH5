@@ -76,12 +76,12 @@
         },
         "createCanavs":function(){
             var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
-            var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox")
+            var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox");
             $baseClipBox.width(this.width);
             $baseClipBox.height(this.height);
             this._Config.canvasWidth=$baseClipBox.width();
             this._Config.canvasHeight=$baseClipBox.height()-$btnBox.height();
-            this._Config.canvasCss={}
+            this._Config.canvasCss={};
             this.draw = new $Clip.DrawCanvas(this._Config,$baseClipBox);
             this.draw.drawImage(0,0,this.width,this.height);
 
@@ -112,7 +112,7 @@
                                   });
 
             $(this.fileInput).on("change",function(e){
-                base.reader = new FileReader(), rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+                base.reader = new FileReader();
                 this.upfile=base.fileInput.files[0];
                 //console.log(this.upfile);
                 base.reader.readAsDataURL(this.upfile);
