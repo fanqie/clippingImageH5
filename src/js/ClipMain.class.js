@@ -40,7 +40,7 @@
                     //callback
                 },
                 "touchEnd":function(){
-                    //callback
+                    //callback func
                 },
                 "touchMove":{
                     singlePoint:function(){
