@@ -90,23 +90,23 @@
             //创建文件上传框
             this.$btn.append(this.fileInput);
             this.$btn.css({"position":"relative"});
+
             $(this.fileInput).css({"position": "absolute",
                                    "width": "100%",
                                    "height": "100%",
                                    "display": "block",
                                    "top": "0px",
                                    "left": "0px",
-                                   "opacity":"0",
+                                   "opacity":"0",//透明度为0
                                    "-webkit-opacity":"0"
                                   });
 
             $(this.fileInput).on("change",function(e){
                 base.createClipbox();
-
             });
-            //透明度为0
 
-            //修改上传框的大家与按钮相同
+
+
         }
 
 
@@ -116,6 +116,6 @@
     $Clip.setClipImage=function($btn,_config){
         var clipMain = new $Clip.Main($btn,_config);
         clipMain.createFileInput();
-        //加载事件
+
     };
 })(window);
