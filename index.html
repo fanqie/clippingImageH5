@@ -11,18 +11,35 @@
         <style>
 
             body{margin: 0px;padding: 0px}
+            #ID_clippingImageH5_btn{display: inline-block;background-color: #ff6600;border: 1px soild #ff9900;
+                width: 150px;height: 40px;border-radius:10px; text-align: center;line-height: 40px;color: #ffffff;text-decoration: none;margin: auto}
+            .btn-row{width: 80%;text-align: center;padding:10%;}
         </style>
         <link type="text/css" href="dist/css/clippingImageH5.css" rel="stylesheet" />
     </head>
-    <body style="background:#ff0066;">
-        <a href="javascript:;" id="ID_clippingImageH5_btn"></a>
-
+    <body>
+        <div class="btn-row">
+            <div href="javascript:;" id="ID_clippingImageH5_btn">上传图片</>
+        </div>
 
 
         <script src="bower_components/zepto-full/zepto.min.js" ></script>
         <script src="dist/js/clippingImageH5.js"></script>
         <script>
             //ID_clippingImageH5_btn
+//调用
+$Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":125,
+                                                 "height":125,
+                                                 "btn":{
+                                                     "ok":{
+                                                         "btnTitle":"确定",
+                                                         "callback":function(){}
+                                                     },
+                                                     "canel":{
+                                                         "btnTitle":"取消",
+                                                         "callback":function(){}
+                                                     }
+                                                 }});
 
         </script>
     </body>
