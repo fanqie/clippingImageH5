@@ -29,10 +29,11 @@
         "init":function(_Config){
             this._Config.width = _Config.width||$Clip._Config.width;
             this._Config.height = _Config.height||$Clip._Config.height;
-        },
-        "addEvent":function(){
             this.height = $(window).height();
             this.width = $(window).width();
+        },
+        "addEvent":function(){
+
             //创建图像
             this.draw = new $Clip.EventTool({
                 "touchStart":function(){
@@ -54,7 +55,6 @@
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
             clipHtml += "	<div class=\"Dc_clipbox_Canvasbox\">";
-            clipHtml += "		<canvas id=\"\"><\/canvas>";
             clipHtml += "	<\/div>";
             clipHtml += "	<div class=\"Dc_clipbox_btnbox\">";
             clipHtml += "		<button type=\"button\" class=\"Dc_clipbox_btn Dc_clipbox_btn_ok\">确认<\/button>";
@@ -67,6 +67,7 @@
             //创建窗口
             this.bulidHtml();
             this.$clipBox=$(this._Config.clipboxId);
+            this.createCanavs();
             return this.$clipBox;
         },
         "createBj":function(){
@@ -74,8 +75,15 @@
             //创建黑背景
         },
         "createCanavs":function(){
-            this.draw = new $Clip.DrawCanvas($Clip._Config);
-            //this.draw.drawImage();
+            var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
+            var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox")
+            $baseClipBox.width(this.width);
+            $baseClipBox.height(this.height);
+            this._Config.canvasWidth=$baseClipBox.width();
+            this._Config.canvasHeight=$baseClipBox.height()-$btnBox.height();
+            this._Config.canvasCss={}
+            this.draw = new $Clip.DrawCanvas(this._Config,$baseClipBox);
+            this.draw.drawImage(0,0,this.width,this.height);
 
         },
         "getImageData":function(callback){
@@ -86,6 +94,8 @@
             var base = this;
             this.fileInput = document.createElement("input");
             this.fileInput.setAttribute("type","file");
+            this.fileInput.setAttribute("accept","image/*");
+
             this.fileInput.setAttribute("id","Dc_filebtn_input"+(new Date().getTime()));
             //创建文件上传框
             this.$btn.append(this.fileInput);
@@ -102,7 +112,15 @@
                                   });
 
             $(this.fileInput).on("change",function(e){
-                base.createClipbox();
+                base.reader = new FileReader(), rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+                this.upfile=base.fileInput.files[0];
+                //console.log(this.upfile);
+                base.reader.readAsDataURL(this.upfile);
+                base.reader.onload = function (oFREvent) {
+                    base._Config.imgpath=oFREvent.target.result;
+                    base.createClipbox();
+                };
+
             });
 
 
