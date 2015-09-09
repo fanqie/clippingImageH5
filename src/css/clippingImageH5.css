@@ -1,3 +1,8 @@
 body{
 }
-#ID_clippingImageH5_svg{clip-path:url(#theSVGPath);}
+.Dc_clipbox_dialog{
+    position:fixed;
+    display: block;
+    z-index: 1001;
+    background-color: black;
+}
