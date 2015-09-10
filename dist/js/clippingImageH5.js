@@ -6,6 +6,7 @@
         //默认配置
         this.$btn=$btn;
         this.init(_Config);
+
     };
     $Clip.Main.prototype={
         "_Config":{
@@ -13,7 +14,7 @@
             "clipboxId":'DC_clipbox_'+new Date().getTime(),
             "width":125,
             "height":125,
-            "borderColor":"#999999",//边框颜色
+            "borderColor":"rgb(247, 251, 0)",//边框颜色
             "bgOpcity":0.5,//背景透明度
             "btn":{
                 "ok":{
@@ -27,6 +28,7 @@
             }
         },
         "init":function(_Config){
+
             this._Config.width = _Config.width||$Clip._Config.width;
             this._Config.height = _Config.height||$Clip._Config.height;
             this.height = $(window).height();
@@ -70,13 +72,82 @@
             this.createCanavs();
             return this.$clipBox;
         },
-        "createBj":function(){
+        "createBjMask":function(){
+            this.$clipBox = $("#"+this._Config.clipboxId);
+            var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox");
+            this.btnHeight = $btnBox.height();
             //创建框子
+            var boderRect = document.createElement("div");
+            $(boderRect).css({
+                "width":this._Config.width+"px",
+                "height":this._Config.height+"px",
+                "border-color":this._Config.borderColor,
+                "border-style":"solid",
+                "border-width":"1px",
+                "position":"absolute",
+                "top":"50%",
+                "left":"50%",
+                "margin-left":(-this._Config.width)/2-1+"px",
+                "margin-top":(-this._Config.height-this.btnHeight)/2-1+"px",
+                "z-index":100
+            });
+            this.$clipBox.append(boderRect);
+
+            var leftRightTop=(this.height-this.btnHeight-this._Config.height)/2;//左右top坐标
             //创建黑背景
+            var bgTop = document.createElement("div");
+            $(bgTop).css({
+                "width":this.width+"px",
+                "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "background-color":"rgba(0,0,0,0.8)",
+                "position":"absolute",
+                "top":"0px",
+                "left":"0px",
+                "z-index":99
+            });
+            this.$clipBox.append(bgTop);
+
+            var bgLeft = document.createElement("div");
+            $(bgLeft).css({
+                "width":(this.width-this._Config.width)/2+"px",
+                "height":this._Config.height+"px",
+                "background-color":"rgba(0,0,0,0.8)",
+                "position":"absolute",
+                "top":leftRightTop+"px",
+                "left":"0px",
+                "z-index":99
+            });
+            this.$clipBox.append(bgLeft);
+
+            var bgBottom = document.createElement("div");
+            $(bgBottom).css({
+                "width":this.width+"px",
+                "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "background-color":"rgba(0,0,0,0.8)",
+                "position":"absolute",
+                "top":this._Config.height+(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "left":"0px",
+                "z-index":99
+            });
+            this.$clipBox.append(bgBottom);
+
+            var bgRight = document.createElement("div");
+            $(bgRight).css({
+                "width":(this.width-this._Config.width)/2+"px",
+                "height":this._Config.height+"px",
+                "background-color":"rgba(0,0,0,0.8)",
+                "position":"absolute",
+                "top":leftRightTop+"px",
+                "right":"0px",
+                "z-index":99
+            });
+            this.$clipBox.append(bgRight);
+
         },
         "createCanavs":function(){
             var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
             var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox");
+
             $baseClipBox.width(this.width);
             $baseClipBox.height(this.height);
             this._Config.canvasWidth=$baseClipBox.width();
@@ -100,7 +171,6 @@
             //创建文件上传框
             this.$btn.append(this.fileInput);
             this.$btn.css({"position":"relative"});
-
             $(this.fileInput).css({"position": "absolute",
                                    "width": "100%",
                                    "height": "100%",
@@ -111,6 +181,7 @@
                                    "-webkit-opacity":"0"
                                   });
 
+
             $(this.fileInput).on("change",function(e){
                 base.reader = new FileReader();
                 this.upfile=base.fileInput.files[0];
@@ -119,6 +190,8 @@
                 base.reader.onload = function (oFREvent) {
                     base._Config.imgpath=oFREvent.target.result;
                     base.createClipbox();
+                    base.createBjMask();
+
                 };
 
             });
