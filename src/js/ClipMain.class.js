@@ -99,7 +99,7 @@
             $(bgTop).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.8)",
+                "background-color":"rgba(0,0,0,0.3)",
                 "position":"absolute",
                 "top":"0px",
                 "left":"0px",
@@ -111,7 +111,7 @@
             $(bgLeft).css({
                 "width":(this.width-this._Config.width)/2+"px",
                 "height":this._Config.height+"px",
-                "background-color":"rgba(0,0,0,0.8)",
+                "background-color":"rgba(0,0,0,0.3)",
                 "position":"absolute",
                 "top":leftRightTop+"px",
                 "left":"0px",
@@ -123,7 +123,7 @@
             $(bgBottom).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.8)",
+                "background-color":"rgba(0,0,0,0.3)",
                 "position":"absolute",
                 "top":this._Config.height+(this.height-this.btnHeight-this._Config.height)/2+"px",
                 "left":"0px",
