@@ -23,36 +23,31 @@
             "startX":0,
             "startY":0,
             "currentX":0,
-            "currentY":0,
-            "endX":0,
-            "endY":0
+            "currentY":0
         },
         "touchMove":function(e){
-
             this.op.currentX = e.touches[0].clientX;
             if(this.op.touchCount>1){
                 this.op.currentY = e.touches[0].clientY;
+                //多点触摸
+                this.configMap.touchMove.multiPointFunc.call(this.op);
+            }else{
+
+                //单点触摸
+                this.configMap.touchMove.singlePoint.call(this.op);
             }
+
         },
         "touchStart":function(e){
             this.op.touchCount = e.touches;
             this.op.startX = e.touches[0].clientX;
             if(this.op.touchCount>1){
                 this.op.startY = e.touches[0].clientY;
-                //多点触摸
-                this.configMap.multiPointFunc.call(this.op);
-            }else{
-                //单点触摸
-                this.configMap.singlePoint.call(this.op);
             }
-
+            this.configMap.touchStart.call(this.op);
         },
         "touchEnd":function(e){
-            //this.configMap.touchEnd.call();
-//            this.op.endX = e.touches[0].clientX;
-//            if(this.op.touchCount>1){
-//                this.op.endY = e.touches[0].clientY;
-//            }
+            this.configMap.touchEnd.call(this.op);
         },
         "addEvents":function(){
             var base = this;

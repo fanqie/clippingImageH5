@@ -44,28 +44,36 @@
                     "y":y,
                     "width":width,
                     "height":height
-                }
+                };
+                base.ctx.fillStyle="#555555";
+                base.ctx.fillRect(0,0,base.drawConfig.width,base.drawConfig.height);
+                base.ctx.save();
                 base.ctx.drawImage(img,x,y,width,height);
+                base.ctx.restore();
 
             };
             img.src=this.drawConfig.imgpath;
-//            $(img).css({
-//                "z-index":999999,
-//                "display":"none"
-//            });
+            //            $(img).css({
+            //                "z-index":999999,
+            //                "display":"none"
+            //            });
             //base.baseClipBox.append(img);
         },
-        "translate":function(transX,tranY){
+        "translate":function(transX,transY){
             this.imgData.x+=transX;
-            this.imgData.y+=tranY;
+            this.imgData.y+=transY;
+            this.ctx.fillStyle="#555555";
+            this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
+
+            this.ctx.save();
             this.ctx.drawImage(this.imgData.img,
                                this.imgData.x,
                                this.imgData.y,
                                this.imgData.width,
                                this.imgData.height
                               );
-        }
-        ,
+            this.ctx.restore();
+        },
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
             this.canvas.setAttribute("width",this.drawConfig.canvasWidth);

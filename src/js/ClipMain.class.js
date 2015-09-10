@@ -35,9 +35,19 @@
             this.width = $(window).width();
         },
         "addEvent":function(){
+            var base=this;
             var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_bgMask");
             //创建图像
-            this.draw = new $Clip.EventTool({
+            this.event = new $Clip.EventTool({
+                /*     "op":{
+                        "touchCount":1,
+                        "startX":0,
+                        "startY":0,
+                        "currentX":0,
+                        "currentY":0,
+                        "endX":0,
+                        "endY":0
+                    }*/
                 "elem":$basebgMask,
                 "touchStart":function(){
                     //callback
@@ -48,6 +58,9 @@
                 "touchMove":{
                     singlePoint:function(){
                         //callback
+                        var moveX = this.currentX-this.startX;
+                        var moveY = this.currentY-this.startY;
+                        base.draw.translate(moveX,moveY);
                     },
                     multiPointFunc:function(){
                         //callback

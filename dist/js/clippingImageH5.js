@@ -35,9 +35,19 @@
             this.width = $(window).width();
         },
         "addEvent":function(){
+            var base=this;
             var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_bgMask");
             //创建图像
-            this.draw = new $Clip.EventTool({
+            this.event = new $Clip.EventTool({
+                /*     "op":{
+                        "touchCount":1,
+                        "startX":0,
+                        "startY":0,
+                        "currentX":0,
+                        "currentY":0,
+                        "endX":0,
+                        "endY":0
+                    }*/
                 "elem":$basebgMask,
                 "touchStart":function(){
                     //callback
@@ -48,6 +58,9 @@
                 "touchMove":{
                     singlePoint:function(){
                         //callback
+                        var moveX = this.currentX-this.startX;
+                        var moveY = this.currentY-this.startY;
+                        base.draw.translate(moveX,moveY);
                     },
                     multiPointFunc:function(){
                         //callback
@@ -270,28 +283,36 @@
                     "y":y,
                     "width":width,
                     "height":height
-                }
+                };
+                base.ctx.fillStyle="#555555";
+                base.ctx.fillRect(0,0,base.drawConfig.width,base.drawConfig.height);
+                base.ctx.save();
                 base.ctx.drawImage(img,x,y,width,height);
+                base.ctx.restore();
 
             };
             img.src=this.drawConfig.imgpath;
-//            $(img).css({
-//                "z-index":999999,
-//                "display":"none"
-//            });
+            //            $(img).css({
+            //                "z-index":999999,
+            //                "display":"none"
+            //            });
             //base.baseClipBox.append(img);
         },
-        "translate":function(transX,tranY){
+        "translate":function(transX,transY){
             this.imgData.x+=transX;
-            this.imgData.y+=tranY;
+            this.imgData.y+=transY;
+            this.ctx.fillStyle="#555555";
+            this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
+
+            this.ctx.save();
             this.ctx.drawImage(this.imgData.img,
                                this.imgData.x,
                                this.imgData.y,
                                this.imgData.width,
                                this.imgData.height
                               );
-        }
-        ,
+            this.ctx.restore();
+        },
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
             this.canvas.setAttribute("width",this.drawConfig.canvasWidth);
@@ -335,36 +356,31 @@
             "startX":0,
             "startY":0,
             "currentX":0,
-            "currentY":0,
-            "endX":0,
-            "endY":0
+            "currentY":0
         },
         "touchMove":function(e){
-
             this.op.currentX = e.touches[0].clientX;
             if(this.op.touchCount>1){
                 this.op.currentY = e.touches[0].clientY;
+                //多点触摸
+                this.configMap.touchMove.multiPointFunc.call(this.op);
+            }else{
+
+                //单点触摸
+                this.configMap.touchMove.singlePoint.call(this.op);
             }
+
         },
         "touchStart":function(e){
             this.op.touchCount = e.touches;
             this.op.startX = e.touches[0].clientX;
             if(this.op.touchCount>1){
                 this.op.startY = e.touches[0].clientY;
-                //多点触摸
-                this.configMap.multiPointFunc.call(this.op);
-            }else{
-                //单点触摸
-                this.configMap.singlePoint.call(this.op);
             }
-
+            this.configMap.touchStart.call(this.op);
         },
         "touchEnd":function(e){
-            //this.configMap.touchEnd.call();
-//            this.op.endX = e.touches[0].clientX;
-//            if(this.op.touchCount>1){
-//                this.op.endY = e.touches[0].clientY;
-//            }
+            this.configMap.touchEnd.call(this.op);
         },
         "addEvents":function(){
             var base = this;
