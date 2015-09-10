@@ -149,7 +149,7 @@
             var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox");
 
             $baseClipBox.width(this.width);
-            $baseClipBox.height(this.height);
+            $baseClipBox.height(this.height-$btnBox.height());
             this._Config.canvasWidth=$baseClipBox.width();
             this._Config.canvasHeight=$baseClipBox.height()-$btnBox.height();
             this._Config.canvasCss={};
@@ -191,7 +191,6 @@
                     base._Config.imgpath=oFREvent.target.result;
                     base.createClipbox();
                     base.createBjMask();
-
                 };
 
             });
