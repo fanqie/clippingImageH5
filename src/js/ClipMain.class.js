@@ -35,9 +35,10 @@
             this.width = $(window).width();
         },
         "addEvent":function(){
-
+            var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_bgMask");
             //创建图像
             this.draw = new $Clip.EventTool({
+                "elem":$basebgMask,
                 "touchStart":function(){
                     //callback
                 },
@@ -52,7 +53,7 @@
                         //callback
                     }
                 }}
-                                           );
+                                           ).addEvents();
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
@@ -99,7 +100,7 @@
             $(bgTop).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":"0px",
                 "left":"0px",
@@ -108,10 +109,11 @@
             this.$clipBox.append(bgTop);
 
             var bgLeft = document.createElement("div");
+
             $(bgLeft).css({
                 "width":(this.width-this._Config.width)/2+"px",
                 "height":this._Config.height+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":leftRightTop+"px",
                 "left":"0px",
@@ -123,7 +125,7 @@
             $(bgBottom).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":this._Config.height+(this.height-this.btnHeight-this._Config.height)/2+"px",
                 "left":"0px",
@@ -142,7 +144,18 @@
                 "z-index":99
             });
             this.$clipBox.append(bgRight);
+            var touchMask = document.createElement("div");
 
+            $(touchMask).css({
+                "width":this.width+"px",
+                "height":this.height-this.btnHeight+"px",
+                "background-color":"rgba(55,255,0.8)",
+                "position":"absolute",
+                "top":"0px",
+                "left":"0px",
+                "z-index":101
+            }).addClass("Dc_clipbox_bgMask");
+            this.$clipBox.append(touchMask);
         },
         "createCanavs":function(){
             var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
@@ -191,6 +204,7 @@
                     base._Config.imgpath=oFREvent.target.result;
                     base.createClipbox();
                     base.createBjMask();
+                    base.addEvent();
                 };
 
             });

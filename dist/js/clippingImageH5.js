@@ -35,9 +35,10 @@
             this.width = $(window).width();
         },
         "addEvent":function(){
-
+            var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_bgMask");
             //创建图像
             this.draw = new $Clip.EventTool({
+                "elem":$basebgMask,
                 "touchStart":function(){
                     //callback
                 },
@@ -52,7 +53,7 @@
                         //callback
                     }
                 }}
-                                           );
+                                           ).addEvents();
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
@@ -99,7 +100,7 @@
             $(bgTop).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":"0px",
                 "left":"0px",
@@ -108,10 +109,11 @@
             this.$clipBox.append(bgTop);
 
             var bgLeft = document.createElement("div");
+
             $(bgLeft).css({
                 "width":(this.width-this._Config.width)/2+"px",
                 "height":this._Config.height+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":leftRightTop+"px",
                 "left":"0px",
@@ -123,7 +125,7 @@
             $(bgBottom).css({
                 "width":this.width+"px",
                 "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
-                "background-color":"rgba(0,0,0,0.3)",
+                "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":this._Config.height+(this.height-this.btnHeight-this._Config.height)/2+"px",
                 "left":"0px",
@@ -142,7 +144,18 @@
                 "z-index":99
             });
             this.$clipBox.append(bgRight);
+            var touchMask = document.createElement("div");
 
+            $(touchMask).css({
+                "width":this.width+"px",
+                "height":this.height-this.btnHeight+"px",
+                "background-color":"rgba(55,255,0.8)",
+                "position":"absolute",
+                "top":"0px",
+                "left":"0px",
+                "z-index":101
+            }).addClass("Dc_clipbox_bgMask");
+            this.$clipBox.append(touchMask);
         },
         "createCanavs":function(){
             var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
@@ -191,6 +204,7 @@
                     base._Config.imgpath=oFREvent.target.result;
                     base.createClipbox();
                     base.createBjMask();
+                    base.addEvent();
                 };
 
             });
@@ -234,26 +248,50 @@
                     //高大于宽框子
                     width=base.baseClipBox.width();
                     height=base.baseClipBox.width()/imgw*imgh;
+                    if(height<base.drawConfig.canvasHeight){
+                        width=(base.drawConfig.canvasHeight/height)*width;
+                        height=base.drawConfig.canvasHeight;
+                    }
                     y=(base.baseClipBox.height()-height)/2;
-
                 }else{
                     //宽小于高 高等比缩放
                     height=base.baseClipBox.height();
-                    width=base.baseClipBox.height()/imgh*imgw;
+                    width=(base.baseClipBox.height()/imgh)*imgw;
+                    if(width<base.drawConfig.canvasWidth){
+                        height=(base.drawConfig.canvasWidth/width)*height;
+                        width=base.drawConfig.canvasWidth;
+                    }
                     x=(base.baseClipBox.width()-width)/2;
 
                 }
-
+                base.imgData={
+                    "img":img,
+                    "x":x,
+                    "y":y,
+                    "width":width,
+                    "height":height
+                }
                 base.ctx.drawImage(img,x,y,width,height);
 
             };
             img.src=this.drawConfig.imgpath;
-            $(img).css({
-                "z-index":999999,
-                "display":"none"
-            });
-            base.baseClipBox.append(img);
+//            $(img).css({
+//                "z-index":999999,
+//                "display":"none"
+//            });
+            //base.baseClipBox.append(img);
         },
+        "translate":function(transX,tranY){
+            this.imgData.x+=transX;
+            this.imgData.y+=tranY;
+            this.ctx.drawImage(this.imgData.img,
+                               this.imgData.x,
+                               this.imgData.y,
+                               this.imgData.width,
+                               this.imgData.height
+                              );
+        }
+        ,
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
             this.canvas.setAttribute("width",this.drawConfig.canvasWidth);
@@ -292,19 +330,56 @@
     };
 
     $Clip.EventTool.prototype={
+        "op":{
+            "touchCount":1,
+            "startX":0,
+            "startY":0,
+            "currentX":0,
+            "currentY":0,
+            "endX":0,
+            "endY":0
+        },
         "touchMove":function(e){
-            console.log(e);
+
+            this.op.currentX = e.touches[0].clientX;
+            if(this.op.touchCount>1){
+                this.op.currentY = e.touches[0].clientY;
+            }
         },
         "touchStart":function(e){
-            this.configMap.touchStart();
+            this.op.touchCount = e.touches;
+            this.op.startX = e.touches[0].clientX;
+            if(this.op.touchCount>1){
+                this.op.startY = e.touches[0].clientY;
+                //多点触摸
+                this.configMap.multiPointFunc.call(this.op);
+            }else{
+                //单点触摸
+                this.configMap.singlePoint.call(this.op);
+            }
+
         },
         "touchEnd":function(e){
-            this.configMap.touchEnd();
+            //this.configMap.touchEnd.call();
+//            this.op.endX = e.touches[0].clientX;
+//            if(this.op.touchCount>1){
+//                this.op.endY = e.touches[0].clientY;
+//            }
         },
         "addEvents":function(){
-            this.elem.addEventListener("touchStart",this.touchStart,false);
-            this.elem.addEventListener("touchEnd",this.touchEnd,false);
-            this.elem.addEventListener("touchMove",this.touchMove,false);
+            var base = this;
+            this.elem.on("touchstart",function(e){
+                e.stopPropagation();
+                base.touchStart.call(base,e);
+            });
+            this.elem.on("touchmove",function(e){
+                e.stopPropagation();
+                base.touchMove.call(base,e);
+            });
+            this.elem.on("touchend",function(e){
+                e.stopPropagation();
+                base.touchEnd.call(base,e);
+            });
         }
     };
 })();

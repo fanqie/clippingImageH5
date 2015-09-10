@@ -22,26 +22,50 @@
                     //高大于宽框子
                     width=base.baseClipBox.width();
                     height=base.baseClipBox.width()/imgw*imgh;
+                    if(height<base.drawConfig.canvasHeight){
+                        width=(base.drawConfig.canvasHeight/height)*width;
+                        height=base.drawConfig.canvasHeight;
+                    }
                     y=(base.baseClipBox.height()-height)/2;
-
                 }else{
                     //宽小于高 高等比缩放
                     height=base.baseClipBox.height();
-                    width=base.baseClipBox.height()/imgh*imgw;
+                    width=(base.baseClipBox.height()/imgh)*imgw;
+                    if(width<base.drawConfig.canvasWidth){
+                        height=(base.drawConfig.canvasWidth/width)*height;
+                        width=base.drawConfig.canvasWidth;
+                    }
                     x=(base.baseClipBox.width()-width)/2;
 
                 }
-
+                base.imgData={
+                    "img":img,
+                    "x":x,
+                    "y":y,
+                    "width":width,
+                    "height":height
+                }
                 base.ctx.drawImage(img,x,y,width,height);
 
             };
             img.src=this.drawConfig.imgpath;
-            $(img).css({
-                "z-index":999999,
-                "display":"none"
-            });
-            base.baseClipBox.append(img);
+//            $(img).css({
+//                "z-index":999999,
+//                "display":"none"
+//            });
+            //base.baseClipBox.append(img);
         },
+        "translate":function(transX,tranY){
+            this.imgData.x+=transX;
+            this.imgData.y+=tranY;
+            this.ctx.drawImage(this.imgData.img,
+                               this.imgData.x,
+                               this.imgData.y,
+                               this.imgData.width,
+                               this.imgData.height
+                              );
+        }
+        ,
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
             this.canvas.setAttribute("width",this.drawConfig.canvasWidth);
