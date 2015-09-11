@@ -36,7 +36,7 @@
         },
         "addEvent":function(){
             var base=this;
-            var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_bgMask");
+            var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox>.Dc_clipbox_bgMask");
             //创建图像
             this.event = new $Clip.EventTool({
                 /*     "op":{
@@ -61,17 +61,8 @@
                     singlePoint:function(){
                         var moveX = 0;
                         var moveY = 0;
-//                        console.log("x:"+Math.abs(this.currentX-this.startX));
-//                        console.log("y:"+Math.abs(this.currentX-this.startX));
-//                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
-//                            //callback
-//
-//
-//                        }else{
-//
-//                        }
 
-                        if(base.draw.lastX==undefined||base.draw.lastX==null){
+                        if(base.draw.lastX===undefined||base.draw.lastX===null){
                             moveX = this.currentX-this.startX;
                             moveY = this.currentY-this.startY;
                         }else{
@@ -124,24 +115,24 @@
                 "top":"50%",
                 "left":"50%",
                 "margin-left":(-this._Config.width)/2-1+"px",
-                "margin-top":(-this._Config.height-this.btnHeight)/2-1+"px",
+                "margin-top":(-this._Config.height)/2+"px",
                 "z-index":100
             });
-            this.$clipBox.append(boderRect);
+            this.$clipBox.find(".Dc_clipbox_Canvasbox").append(boderRect);
 
-            var leftRightTop=(this.height-this.btnHeight-this._Config.height)/2;//左右top坐标
+            var leftRightTop=(((this.height-this.btnHeight)-this._Config.height)/2);//左右top坐标
             //创建黑背景
             var bgTop = document.createElement("div");
             $(bgTop).css({
                 "width":this.width+"px",
-                "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "height":(((this.height-this.btnHeight)-this._Config.height)/2)+"px",
                 "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
                 "top":"0px",
                 "left":"0px",
                 "z-index":99
             });
-            this.$clipBox.append(bgTop);
+            this.$clipBox.find(".Dc_clipbox_Canvasbox").append(bgTop);
 
             var bgLeft = document.createElement("div");
 
@@ -154,19 +145,19 @@
                 "left":"0px",
                 "z-index":99
             });
-            this.$clipBox.append(bgLeft);
+            this.$clipBox.find(".Dc_clipbox_Canvasbox").append(bgLeft);
 
             var bgBottom = document.createElement("div");
             $(bgBottom).css({
                 "width":this.width+"px",
-                "height":(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "height":(((this.height-this.btnHeight)-this._Config.height)/2)+"px",
                 "background-color":"rgba(0,0,0,0.8)",
                 "position":"absolute",
-                "top":this._Config.height+(this.height-this.btnHeight-this._Config.height)/2+"px",
+                "top":this._Config.height+(((this.height-this.btnHeight)-this._Config.height)/2)+"px",
                 "left":"0px",
                 "z-index":99
             });
-            this.$clipBox.append(bgBottom);
+            this.$clipBox.find(".Dc_clipbox_Canvasbox").append(bgBottom);
 
             var bgRight = document.createElement("div");
             $(bgRight).css({
@@ -190,7 +181,7 @@
                 "left":"0px",
                 "z-index":101
             }).addClass("Dc_clipbox_bgMask");
-            this.$clipBox.append(touchMask);
+            this.$clipBox.find(".Dc_clipbox_Canvasbox").append(touchMask);
         },
         "createCanavs":function(){
             var $baseClipBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox");
@@ -199,7 +190,7 @@
             $baseClipBox.width(this.width);
             $baseClipBox.height(this.height-$btnBox.height());
             this._Config.canvasWidth=$baseClipBox.width();
-            this._Config.canvasHeight=$baseClipBox.height()-$btnBox.height();
+            this._Config.canvasHeight=$baseClipBox.height();
             this._Config.canvasCss={};
             this.draw = new $Clip.DrawCanvas(this._Config,$baseClipBox);
             this.draw.drawImage(0,0,this.width,this.height);
@@ -321,10 +312,26 @@
             //base.baseClipBox.append(img);
         },
         "translate":function(transX,transY){
-            console.log(this.imgData);
-            console.log(transY);
+            //如果左边进入边框则停止
+            if((this.imgData.x+transX)>(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
+                return;
+            }
+            //如果进入右边边框则停止
+            if(Math.abs(this.imgData.x+this.imgData.width+transX)<((this.drawConfig.canvasWidth-this.drawConfig.width)/2+this.drawConfig.width)){
+                return;
+            }
+            //如果进入上边边框则停止
+            if((this.imgData.y+transY)>(this.drawConfig.canvasHeight-this.drawConfig.height)/2){
+                return;
+            }
+
+            //如果进入下边边框则停止
+            if(Math.abs(this.imgData.y+this.imgData.height+transY)<((this.drawConfig.canvasHeight-this.drawConfig.height)/2+this.drawConfig.height)){
+                return;
+            }
             this.imgData.x+=transX;
             this.imgData.y+=transY;
+
             this.ctx.fillStyle="#555555";
             this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
 
@@ -415,15 +422,14 @@
         "addEvents":function(){
             var base = this;
             this.elem.on("touchstart",function(e){
-                e.stopPropagation();
                 base.touchStart.call(base,e);
             });
             this.elem.on("touchmove",function(e){
+                e.preventDefault();
                 e.stopPropagation();
                 base.touchMove.call(base,e);
             });
             this.elem.on("touchend",function(e){
-                e.stopPropagation();
                 base.touchEnd.call(base,e);
             });
         }

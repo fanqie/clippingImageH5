@@ -58,15 +58,14 @@
         "addEvents":function(){
             var base = this;
             this.elem.on("touchstart",function(e){
-                e.stopPropagation();
                 base.touchStart.call(base,e);
             });
             this.elem.on("touchmove",function(e){
+                e.preventDefault();
                 e.stopPropagation();
                 base.touchMove.call(base,e);
             });
             this.elem.on("touchend",function(e){
-                e.stopPropagation();
                 base.touchEnd.call(base,e);
             });
         }
