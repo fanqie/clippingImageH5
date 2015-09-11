@@ -76,7 +76,8 @@
 
                     },
                     multiPointFunc:function(){
-                        //callback
+                        //缩放
+                     // console.log("多点触控");
                     }
                 }}
                                             ).addEvents();

@@ -28,8 +28,10 @@
             "current2Y":0
         },
         "touchMove":function(e){
+            this.op.touchCount = e.touches.length;
             this.op.currentX = e.touches[0].clientX;
             this.op.currentY = e.touches[0].clientY;
+
             if(this.op.touchCount>1){
                 this.op.current2X = e.touches[1].clientX;
                 this.op.current2Y = e.touches[1].clientY;
