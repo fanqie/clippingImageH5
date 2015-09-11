@@ -57,16 +57,26 @@
                 },
                 "touchMove":{
                     singlePoint:function(){
-                        //callback
-                        var moveX = this.currentX-this.startX;
-                        var moveY = this.currentY-this.startY;
+                        var moveX = 0;
+                        var moveY = 0;
+                        console.log("x"+Math.abs(this.currentX-this.startX));
+                        console.log("y"+Math.abs(this.currentX-this.startX));
+                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
+                            //callback
+                            moveY = this.currentY-this.startY>0?-2:2;
+
+                        }else{
+                            moveX = this.currentX-this.startX>0?2:-2;
+                        }
+                        // console.log(moveX+">>>"+moveY);
                         base.draw.translate(moveX,moveY);
+
                     },
                     multiPointFunc:function(){
                         //callback
                     }
                 }}
-                                           ).addEvents();
+                                            ).addEvents();
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
@@ -299,6 +309,24 @@
             //base.baseClipBox.append(img);
         },
         "translate":function(transX,transY){
+            console.log(this.imgData.x+transX);
+
+//            if((this.imgData.x+transX) >(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
+//                //不能进左边框
+//                return;
+//            }
+//            if((this.imgData.x+transX+this.drawConfig.canvasWidth)<(this.drawConfig.canvasWidth-(this.drawConfig.canvasWidth-this.drawConfig.width)/2)){
+//                //不能出右边框
+//                return;
+//            }
+//            if((this.imgData.y+transY) >(this.drawConfig.height-this.drawConfig.canvasHeight)/2){
+//                //不能出左边框
+//                return;
+//            }
+//            if((this.imgData.y+transY+this.drawConfig.canvasHeight)<(this.drawConfig.height-(this.drawConfig.height-this.drawConfig.canvasHeight)/2)){
+//                //不能出右边框
+//                return;
+//            }
             this.imgData.x+=transX;
             this.imgData.y+=transY;
             this.ctx.fillStyle="#555555";
@@ -356,12 +384,16 @@
             "startX":0,
             "startY":0,
             "currentX":0,
-            "currentY":0
+            "currentY":0,
+            "current2X":0,
+            "current2Y":0
         },
         "touchMove":function(e){
             this.op.currentX = e.touches[0].clientX;
+            this.op.currentY = e.touches[0].clientY;
             if(this.op.touchCount>1){
-                this.op.currentY = e.touches[0].clientY;
+                this.op.current2X = e.touches[1].clientX;
+                this.op.current2Y = e.touches[1].clientY;
                 //多点触摸
                 this.configMap.touchMove.multiPointFunc.call(this.op);
             }else{

@@ -23,12 +23,16 @@
             "startX":0,
             "startY":0,
             "currentX":0,
-            "currentY":0
+            "currentY":0,
+            "current2X":0,
+            "current2Y":0
         },
         "touchMove":function(e){
             this.op.currentX = e.touches[0].clientX;
+            this.op.currentY = e.touches[0].clientY;
             if(this.op.touchCount>1){
-                this.op.currentY = e.touches[0].clientY;
+                this.op.current2X = e.touches[1].clientX;
+                this.op.current2Y = e.touches[1].clientY;
                 //多点触摸
                 this.configMap.touchMove.multiPointFunc.call(this.op);
             }else{

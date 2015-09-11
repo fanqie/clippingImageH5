@@ -57,16 +57,26 @@
                 },
                 "touchMove":{
                     singlePoint:function(){
-                        //callback
-                        var moveX = this.currentX-this.startX;
-                        var moveY = this.currentY-this.startY;
+                        var moveX = 0;
+                        var moveY = 0;
+                        console.log("x"+Math.abs(this.currentX-this.startX));
+                        console.log("y"+Math.abs(this.currentX-this.startX));
+                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
+                            //callback
+                            moveY = this.currentY-this.startY>0?-2:2;
+
+                        }else{
+                            moveX = this.currentX-this.startX>0?2:-2;
+                        }
+                        // console.log(moveX+">>>"+moveY);
                         base.draw.translate(moveX,moveY);
+
                     },
                     multiPointFunc:function(){
                         //callback
                     }
                 }}
-                                           ).addEvents();
+                                            ).addEvents();
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";

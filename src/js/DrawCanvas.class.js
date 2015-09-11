@@ -60,6 +60,24 @@
             //base.baseClipBox.append(img);
         },
         "translate":function(transX,transY){
+            console.log(this.imgData.x+transX);
+
+//            if((this.imgData.x+transX) >(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
+//                //不能进左边框
+//                return;
+//            }
+//            if((this.imgData.x+transX+this.drawConfig.canvasWidth)<(this.drawConfig.canvasWidth-(this.drawConfig.canvasWidth-this.drawConfig.width)/2)){
+//                //不能出右边框
+//                return;
+//            }
+//            if((this.imgData.y+transY) >(this.drawConfig.height-this.drawConfig.canvasHeight)/2){
+//                //不能出左边框
+//                return;
+//            }
+//            if((this.imgData.y+transY+this.drawConfig.canvasHeight)<(this.drawConfig.height-(this.drawConfig.height-this.drawConfig.canvasHeight)/2)){
+//                //不能出右边框
+//                return;
+//            }
             this.imgData.x+=transX;
             this.imgData.y+=transY;
             this.ctx.fillStyle="#555555";
