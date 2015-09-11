@@ -54,21 +54,33 @@
                 },
                 "touchEnd":function(){
                     //callback
+                    base.draw.lastX=null;
+                    base.draw.lastY=null;
                 },
                 "touchMove":{
                     singlePoint:function(){
                         var moveX = 0;
                         var moveY = 0;
-                        console.log("x"+Math.abs(this.currentX-this.startX));
-                        console.log("y"+Math.abs(this.currentX-this.startX));
-                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
-                            //callback
-                            moveY = this.currentY-this.startY>0?-2:2;
+//                        console.log("x:"+Math.abs(this.currentX-this.startX));
+//                        console.log("y:"+Math.abs(this.currentX-this.startX));
+//                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
+//                            //callback
+//
+//
+//                        }else{
+//
+//                        }
 
+                        if(base.draw.lastX==undefined||base.draw.lastX==null){
+                            moveX = this.currentX-this.startX;
+                            moveY = this.currentY-this.startY;
                         }else{
-                            moveX = this.currentX-this.startX>0?2:-2;
+                            moveX = this.currentX-base.draw.lastX;
+                            moveY = this.currentY-base.draw.lastY;
+
                         }
-                        // console.log(moveX+">>>"+moveY);
+                        base.draw.lastX=this.currentX;
+                        base.draw.lastY=this.currentY;
                         base.draw.translate(moveX,moveY);
 
                     },
@@ -309,24 +321,8 @@
             //base.baseClipBox.append(img);
         },
         "translate":function(transX,transY){
-            console.log(this.imgData.x+transX);
-
-//            if((this.imgData.x+transX) >(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
-//                //不能进左边框
-//                return;
-//            }
-//            if((this.imgData.x+transX+this.drawConfig.canvasWidth)<(this.drawConfig.canvasWidth-(this.drawConfig.canvasWidth-this.drawConfig.width)/2)){
-//                //不能出右边框
-//                return;
-//            }
-//            if((this.imgData.y+transY) >(this.drawConfig.height-this.drawConfig.canvasHeight)/2){
-//                //不能出左边框
-//                return;
-//            }
-//            if((this.imgData.y+transY+this.drawConfig.canvasHeight)<(this.drawConfig.height-(this.drawConfig.height-this.drawConfig.canvasHeight)/2)){
-//                //不能出右边框
-//                return;
-//            }
+            console.log(this.imgData);
+            console.log(transY);
             this.imgData.x+=transX;
             this.imgData.y+=transY;
             this.ctx.fillStyle="#555555";
@@ -406,8 +402,10 @@
         "touchStart":function(e){
             this.op.touchCount = e.touches;
             this.op.startX = e.touches[0].clientX;
+            this.op.startY = e.touches[0].clientY;
             if(this.op.touchCount>1){
-                this.op.startY = e.touches[0].clientY;
+                this.op.start2X = e.touches[1].clientX;
+                this.op.start2Y = e.touches[1].clientY;
             }
             this.configMap.touchStart.call(this.op);
         },

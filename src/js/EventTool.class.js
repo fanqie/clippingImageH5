@@ -45,8 +45,10 @@
         "touchStart":function(e){
             this.op.touchCount = e.touches;
             this.op.startX = e.touches[0].clientX;
+            this.op.startY = e.touches[0].clientY;
             if(this.op.touchCount>1){
-                this.op.startY = e.touches[0].clientY;
+                this.op.start2X = e.touches[1].clientX;
+                this.op.start2Y = e.touches[1].clientY;
             }
             this.configMap.touchStart.call(this.op);
         },

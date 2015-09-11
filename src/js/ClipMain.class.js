@@ -54,21 +54,33 @@
                 },
                 "touchEnd":function(){
                     //callback
+                    base.draw.lastX=null;
+                    base.draw.lastY=null;
                 },
                 "touchMove":{
                     singlePoint:function(){
                         var moveX = 0;
                         var moveY = 0;
-                        console.log("x"+Math.abs(this.currentX-this.startX));
-                        console.log("y"+Math.abs(this.currentX-this.startX));
-                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
-                            //callback
-                            moveY = this.currentY-this.startY>0?-2:2;
+//                        console.log("x:"+Math.abs(this.currentX-this.startX));
+//                        console.log("y:"+Math.abs(this.currentX-this.startX));
+//                        if(Math.abs(this.currentX-this.startX)>Math.abs(this.currentY-this.startY)){
+//                            //callback
+//
+//
+//                        }else{
+//
+//                        }
 
+                        if(base.draw.lastX==undefined||base.draw.lastX==null){
+                            moveX = this.currentX-this.startX;
+                            moveY = this.currentY-this.startY;
                         }else{
-                            moveX = this.currentX-this.startX>0?2:-2;
+                            moveX = this.currentX-base.draw.lastX;
+                            moveY = this.currentY-base.draw.lastY;
+
                         }
-                        // console.log(moveX+">>>"+moveY);
+                        base.draw.lastX=this.currentX;
+                        base.draw.lastY=this.currentY;
                         base.draw.translate(moveX,moveY);
 
                     },
