@@ -51,7 +51,7 @@
                 var imgctx = imgCanvas.getContext("2d");
                 imgctx.putImageData(data.img,0,0);
 
-                //获取base64的图片
+                //获取 base64 的图片
 
                 imgCanvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
                 //data.Formdata= new FormData('userpic',data.img,'img.jpg');
