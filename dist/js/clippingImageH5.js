@@ -37,6 +37,26 @@
         "addEvent":function(){
             var base=this;
             var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox>.Dc_clipbox_bgMask");
+
+            //添加按钮事件
+            //getImageData
+            $(".Dc_clipbox_btnbox>.Dc_clipbox_btn_ok").on("click",function(){
+                var data = {};
+                var x=base.width-base._Config.width/2;
+                var y=base.height-base._Config.height/2;
+                data.img = base.draw.getImageData(x,y,base._Config.width,base._Config.height);
+                var imgCanvas = document.createElement("canvas");
+                $(imgCanvas).width(base._Config.width);
+                $(imgCanvas).height(base._Config.height);
+                var imgctx = imgCanvas.getContext("2d");
+                imgctx.putImageData(data.img,0,0);
+
+                //获取base64的图片
+
+                imgCanvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
+                //data.Formdata= new FormData('userpic',data.img,'img.jpg');
+                base._Config.btn.ok.callback.call();
+            }).html(base._Config.btn.ok.btnTitle);
             //创建图像
             this.event = new $Clip.EventTool({
                 /*     "op":{
@@ -78,21 +98,16 @@
                     },
                     multiPointFunc:function(){
                         if(base.draw.lastDistance===undefined||base.draw.lastDistance===null){
-                            distance=base.getDistance(this.startX,this.current2X,this.startY,this.current2Y);           //                            base.draw.scale(distance);
+                            distance=base.getDistance(this.startX,this.current2X,this.startY,this.current2Y);
                             base.draw.lastDistance = distance;
-//                            console.log("起点："+distance);
- //                             base.draw.scale(0);
                         }else{
                             //缩放
                             // console.log("多点触控");
                             distance=base.getDistance(this.currentX,this.current2X,this.currentY,this.current2Y);
                             var currentDistance = distance-base.draw.lastDistance;
                             base.draw.lastDistance = distance;
-                            //if(Math.abs(currentDistance)>0&&Math.abs(currentDistance)<=15){
-                                base.draw.scale(currentDistance);
-                            //}
+                            base.draw.scale(currentDistance);
 
-                           // console.log("缩放："+distance);
                         }
                     }
                 }}
@@ -127,6 +142,7 @@
             this.$clipBox = $("#"+this._Config.clipboxId);
             var $btnBox = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox");
             this.btnHeight = $btnBox.height();
+
             //创建框子
             var boderRect = document.createElement("div");
             $(boderRect).css({
@@ -367,6 +383,7 @@
                                this.imgData.height
                               );
             this.ctx.restore();
+            this.ctx.save();
         },
         "scale":function(distance){
             //如果左边进入边框则停止
@@ -401,6 +418,7 @@
                                this.imgData.height
                               );
             this.ctx.restore();
+            this.ctx.save();
         },
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");

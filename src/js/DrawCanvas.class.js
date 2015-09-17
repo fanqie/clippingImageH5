@@ -91,6 +91,7 @@
                                this.imgData.height
                               );
             this.ctx.restore();
+            this.ctx.save();
         },
         "scale":function(distance){
             //如果左边进入边框则停止
@@ -125,6 +126,7 @@
                                this.imgData.height
                               );
             this.ctx.restore();
+            this.ctx.save();
         },
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
