@@ -92,6 +92,40 @@
                               );
             this.ctx.restore();
         },
+        "scale":function(distance){
+            //如果左边进入边框则停止
+            if((this.imgData.x-distance)>(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
+                return;
+            }
+            //如果进入右边边框则停止
+            if(Math.abs(this.imgData.x+this.imgData.width+distance-distance)<((this.drawConfig.canvasWidth-this.drawConfig.width)/2+this.drawConfig.width)){
+                return;
+            }
+            //如果进入上边边框则停止
+            if((this.imgData.y-distance)>(this.drawConfig.canvasHeight-this.drawConfig.height)/2){
+                return;
+            }
+
+            //如果进入下边边框则停止
+            if(Math.abs(this.imgData.y+this.imgData.height+distance-distance)<((this.drawConfig.canvasHeight-this.drawConfig.height)/2+this.drawConfig.height)){
+                return;
+            }
+            this.imgData.x-=distance;
+            this.imgData.y-=distance;
+            this.imgData.width+=distance;
+            this.imgData.height+=distance;
+            this.ctx.fillStyle="#555555";
+            this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
+
+            this.ctx.save();
+            this.ctx.drawImage(this.imgData.img,
+                               this.imgData.x,
+                               this.imgData.y,
+                               this.imgData.width,
+                               this.imgData.height
+                              );
+            this.ctx.restore();
+        },
         "createCanvas":function(){
             this.canvas = document.createElement("canvas");
             this.canvas.setAttribute("width",this.drawConfig.canvasWidth);

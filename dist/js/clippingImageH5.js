@@ -56,6 +56,7 @@
                     //callback
                     base.draw.lastX=null;
                     base.draw.lastY=null;
+                    base.draw.lastDistance=null;
                 },
                 "touchMove":{
                     singlePoint:function(){
@@ -76,11 +77,33 @@
 
                     },
                     multiPointFunc:function(){
-                        //缩放
-                     // console.log("多点触控");
+                        if(base.draw.lastDistance===undefined||base.draw.lastDistance===null){
+                            distance=base.getDistance(this.startX,this.current2X,this.startY,this.current2Y);           //                            base.draw.scale(distance);
+                            base.draw.lastDistance = distance;
+//                            console.log("起点："+distance);
+ //                             base.draw.scale(0);
+                        }else{
+                            //缩放
+                            // console.log("多点触控");
+                            distance=base.getDistance(this.currentX,this.current2X,this.currentY,this.current2Y);
+                            var currentDistance = distance-base.draw.lastDistance;
+                            base.draw.lastDistance = distance;
+                            //if(Math.abs(currentDistance)>0&&Math.abs(currentDistance)<=15){
+                                base.draw.scale(currentDistance);
+                            //}
+
+                           // console.log("缩放："+distance);
+                        }
                     }
                 }}
                                             ).addEvents();
+        },
+        "getDistance":function (x1, x2, y1,y2) {
+
+            var x = x2 - x1,
+                y = y2 - y1;
+
+            return Math.sqrt((x * x) + (y * y));
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
@@ -333,6 +356,40 @@
             this.imgData.x+=transX;
             this.imgData.y+=transY;
 
+            this.ctx.fillStyle="#555555";
+            this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
+
+            this.ctx.save();
+            this.ctx.drawImage(this.imgData.img,
+                               this.imgData.x,
+                               this.imgData.y,
+                               this.imgData.width,
+                               this.imgData.height
+                              );
+            this.ctx.restore();
+        },
+        "scale":function(distance){
+            //如果左边进入边框则停止
+            if((this.imgData.x-distance)>(this.drawConfig.canvasWidth-this.drawConfig.width)/2){
+                return;
+            }
+            //如果进入右边边框则停止
+            if(Math.abs(this.imgData.x+this.imgData.width+distance-distance)<((this.drawConfig.canvasWidth-this.drawConfig.width)/2+this.drawConfig.width)){
+                return;
+            }
+            //如果进入上边边框则停止
+            if((this.imgData.y-distance)>(this.drawConfig.canvasHeight-this.drawConfig.height)/2){
+                return;
+            }
+
+            //如果进入下边边框则停止
+            if(Math.abs(this.imgData.y+this.imgData.height+distance-distance)<((this.drawConfig.canvasHeight-this.drawConfig.height)/2+this.drawConfig.height)){
+                return;
+            }
+            this.imgData.x-=distance;
+            this.imgData.y-=distance;
+            this.imgData.width+=distance;
+            this.imgData.height+=distance;
             this.ctx.fillStyle="#555555";
             this.ctx.fillRect(0,0,this.drawConfig.canvasWidth,this.drawConfig.canvasHeight);
 

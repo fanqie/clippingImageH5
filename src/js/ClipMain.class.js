@@ -56,6 +56,7 @@
                     //callback
                     base.draw.lastX=null;
                     base.draw.lastY=null;
+                    base.draw.lastDistance=null;
                 },
                 "touchMove":{
                     singlePoint:function(){
@@ -76,11 +77,33 @@
 
                     },
                     multiPointFunc:function(){
-                        //缩放
-                     // console.log("多点触控");
+                        if(base.draw.lastDistance===undefined||base.draw.lastDistance===null){
+                            distance=base.getDistance(this.startX,this.current2X,this.startY,this.current2Y);           //                            base.draw.scale(distance);
+                            base.draw.lastDistance = distance;
+//                            console.log("起点："+distance);
+ //                             base.draw.scale(0);
+                        }else{
+                            //缩放
+                            // console.log("多点触控");
+                            distance=base.getDistance(this.currentX,this.current2X,this.currentY,this.current2Y);
+                            var currentDistance = distance-base.draw.lastDistance;
+                            base.draw.lastDistance = distance;
+                            //if(Math.abs(currentDistance)>0&&Math.abs(currentDistance)<=15){
+                                base.draw.scale(currentDistance);
+                            //}
+
+                           // console.log("缩放："+distance);
+                        }
                     }
                 }}
                                             ).addEvents();
+        },
+        "getDistance":function (x1, x2, y1,y2) {
+
+            var x = x2 - x1,
+                y = y2 - y1;
+
+            return Math.sqrt((x * x) + (y * y));
         },
         "bulidHtml":function(){
             var clipHtml = "<div id=\""+this._Config.clipboxId+"\" class=\"Dc_clipbox_dialog\">";
