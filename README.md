@@ -13,6 +13,8 @@ HTML:
 JS调用:
 ===================================  
 ```javascript
+<script src="bower_components/zepto-full/zepto.min.js" ></script>
+<script src="dist/js/clippingImageH5.min.js"></script>
 <script>
 
 $Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":200,
