@@ -16,32 +16,39 @@ JS调用:
 <script src="bower_components/zepto-full/zepto.min.js" ></script>
 <script src="dist/js/clippingImageH5.min.js"></script>
 <script>
-
-$Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":200,
+$Clip.setClipImage($("#ID_clippingImageH5_btn"),{
+"width":200,
 "height":200,
 "btn":{
 "ok":{
-    "btnTitle":"确定ok",
-    "callback":function(){
-        /* 返回结果可以参考
-         * this= {formData: FormData
-         * img: ImageData,
-         * imgBase64: "data:image/png;base64,iVBORw...."}
-         */
-        /* 示例一：this.formData 可以用于ajax上传 */
-        /* 示例二：this.img 可以用于图像计算 */
-        /* 示例三：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储 */
-        var img = new Image();
-        img.src=this.imgBase64;
-            $(".btn-row").append(img);
+"btnTitle":"确定ok",
+"callback":function(){
+    /* 返回结果可以参考
+    this= {formData: FormData
+    img: ImageData,
+    imgBase64: "data:image/png;base64,iVBORw...."}
+    */
+    //示例一：this.formData 可以用于ajax上传
+    this.upload("upload.php",function(result){
+        $("#message").html(result);
+    });
+
+    //示例二：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储
+    var img = new Image();
+    img.src=this.imgBase64;
+    $(img).css(
+        {
+            "margin-top":"5px",
+            "border":"10px solid #007941"
         }
-    },
+    );
+    $(".btn-row").append(img);
+        //此外：this.img 可以用于图像计算
+    }
+},
 "canel":{
-    "btnTitle":"取消",
-    "callback":function(){
-        //这里可以填写你的逻辑
-        
-        }
+    "btnTitle":"取消canel",
+    "callback":function(){}
     }
 }});
 </script>
