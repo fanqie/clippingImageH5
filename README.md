@@ -3,10 +3,12 @@
 HTML:
 ===================================  
 ###
-<div class=\"btn-row\">
-<div href=\"javascript:;\" id=\"ID_clippingImageH5_btn\">上传图片！abc <\/div>
-<\/div>
+```html
+<div class="btn-row">
+<div href="javascript:;" id="ID_clippingImageH5_btn">上传图片！abc </div>
+</div>
 ###
+```
 
 JS调用:
 ===================================  
