@@ -1,5 +1,15 @@
 # ClippingImageH5
 ===================================  
+DEMO:
+===================================
+
+
+MATE:
+===================================
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+```
+
 HTML:
 ===================================  
 ###
@@ -20,37 +30,38 @@ $Clip.setClipImage($("#ID_clippingImageH5_btn"),{
 "width":200,
 "height":200,
 "btn":{
-"ok":{
-"btnTitle":"确定ok",
-"callback":function(){
-    /* 返回结果可以参考
-    this= {formData: FormData
-    img: ImageData,
-    imgBase64: "data:image/png;base64,iVBORw...."}
-    */
-    //示例一：this.formData 可以用于ajax上传
-    this.upload("upload.php",function(result){
-        $("#message").html("上传成功，文件大小为："+result.file.size+"b");
-        setTimeout(function(){$("#message").html("");},2000);
-    });
+    "ok":{
+        "btnTitle":"确定ok",
+        "callback":function(){
+            /* 返回结果可以参考
+            this= {formData: FormData
+            img: ImageData,
+            imgBase64: "data:image/png;base64,iVBORw...."}
+            */
+            //示例一：this.formData 可以用于ajax上传
+            this.upload("upload.php",function(result){
+                $("#message").html("上传成功，文件大小为："+result.file.size+"b");
+                setTimeout(function(){$("#message").html("");},2000);
+            });
 
-    //示例二：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储
-    var img = new Image();
-    img.src=this.imgBase64;
-    $(img).css(
-        {
-            "margin-top":"5px",
-            "border":"10px solid #007941"
+            //示例二：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储
+            var img = new Image();
+            img.src=this.imgBase64;
+            $(img).css(
+                {
+                    "margin-top":"5px",
+                    "border":"10px solid #007941"
+                }
+            );
+            $(".btn-row").append(img);
+
+            //此外：this.img 可以用于图像计算 typeof this.img == "imageData"
         }
-    );
-    $(".btn-row").append(img);
-        //此外：this.img 可以用于图像计算
-    }
-},
-"canel":{
-    "btnTitle":"取消canel",
-    "callback":function(){}
-    }
+    },
+    "canel":{
+        "btnTitle":"取消canel",
+        "callback":function(){}
+        }
 }});
 </script>
 ```

@@ -110,7 +110,7 @@
             $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox>.Dc_clipbox_btn_canel").on("click",function(){
                 base._Config.btn.canel.callback.call(this);
                 base.destroy();
-            }).html(base._Config.btn.canel.btnTitle);;
+            }).html(base._Config.btn.canel.btnTitle);
             //创建图像
             this.event = new $Clip.EventTool({
                 /*     "op":{
