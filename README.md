@@ -10,8 +10,9 @@ HTML:
 
 JS调用:
 ===================================  
-###
+```javascript
 <script>
+
 $Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":200,
 "height":200,
 "btn":{
@@ -40,4 +41,4 @@ $Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":200,
     }
 }});
 </script>
-###
+```
