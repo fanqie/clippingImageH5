@@ -37,6 +37,42 @@
             }
             this.height = $(window).height();
             this.width = $(window).width();
+        },"dataURLToBlob":function(dataURL) {
+            var BASE64_MARKER = ';base64,';
+            var parts=null;
+            var contentType=null;
+            var raw=null;
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                parts = dataURL.split(',');
+                contentType = parts[0].split(':')[1];
+                raw = parts[1];
+
+                return new Blob([raw], {type: contentType});
+            }
+            else {
+                parts = dataURL.split(BASE64_MARKER);
+                contentType = parts[0].split(':')[1];
+                raw = window.atob(parts[1]);
+                var rawLength = raw.length;
+
+                var uInt8Array = new Uint8Array(rawLength);
+
+                for (var i = 0; i < rawLength; ++i) {
+                    uInt8Array[i] = raw.charCodeAt(i);
+                }
+
+                return new Blob([uInt8Array], {type: contentType});
+            }
+        },
+        "sendForm":function(url,fileData,callback) {
+
+            fileData.append("CustomField", "This is some extra data");
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", url, true);
+            oReq.onload = function(oEvent) {
+                callback.call(oReq);
+            };
+            oReq.send(fileData);
         },
         "addEvent":function(){
             var base=this;
@@ -56,11 +92,14 @@
                 imgctx.putImageData(data.img,0,0);
                 $("#"+base._Config.clipboxId).append(imgCanvas);
                 data.imgBase64=imgCanvas.toDataURL("image/png");
-                data.formdata=new FormData(data.imgBase64);
+                data.formData =new FormData();
+                var imgBlob = base.dataURLToBlob(data.imgBase64);
+                data.formData.append("file",imgBlob);
+                //上传接口
+                data.upload=function(url,callback) {
+                    base.sendForm(url,data.formData,callback);
+                };
                 //获取 base64 的图片
-                //console.log(imgCanvas.toDataURL("image/png"));
-                //imgCanvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
-                //data.FormData= new FormData('userpic',data.img,'img.jpg');
                 base._Config.btn.ok.callback.call(data);
                 base.destroy();
             }).html(base._Config.btn.ok.btnTitle);
@@ -122,8 +161,8 @@
         },
         "destroy":function(){
             $("#"+this._Config.clipboxId).remove();
-        }
-        ,
+            $(this.fileInput).val("");
+        },
         "getDistance":function (x1, x2, y1,y2) {
 
             var x = x2 - x1,
