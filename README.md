@@ -30,7 +30,8 @@ $Clip.setClipImage($("#ID_clippingImageH5_btn"),{
     */
     //示例一：this.formData 可以用于ajax上传
     this.upload("upload.php",function(result){
-        $("#message").html(result);
+        $("#message").html("上传成功，文件大小为："+result.file.size+"b");
+        setTimeout(function(){$("#message").html("");},2000);
     });
 
     //示例二：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储

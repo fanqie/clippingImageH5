@@ -70,7 +70,10 @@
             var oReq = new XMLHttpRequest();
             oReq.open("POST", url, true);
             oReq.onload = function(oEvent) {
-                callback.call(oReq);
+                if(oReq.status==200){
+                    var data = JSON.parse(oReq.responseText);
+                    callback.call(this, data);
+                }
             };
             oReq.send(fileData);
         },
