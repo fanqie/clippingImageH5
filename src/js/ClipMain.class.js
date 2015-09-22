@@ -91,6 +91,8 @@
                 var imgctx = imgCanvas.getContext("2d");
                 imgctx.putImageData(data.img,0,0);
                 $("#"+base._Config.clipboxId).append(imgCanvas);
+
+                //获取 base64 的图片
                 data.imgBase64=imgCanvas.toDataURL("image/png");
                 data.formData =new FormData();
                 var imgBlob = base.dataURLToBlob(data.imgBase64);
@@ -99,10 +101,13 @@
                 data.upload=function(url,callback) {
                     base.sendForm(url,data.formData,callback);
                 };
-                //获取 base64 的图片
                 base._Config.btn.ok.callback.call(data);
                 base.destroy();
             }).html(base._Config.btn.ok.btnTitle);
+            $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox>.Dc_clipbox_btn_canel").on("click",function(){
+                base._Config.btn.canel.callback.call(this);
+                base.destroy();
+            }).html(base._Config.btn.canel.btnTitle);;
             //创建图像
             this.event = new $Clip.EventTool({
                 /*     "op":{

@@ -11,6 +11,7 @@
         <style>
 
             body{margin: 0px;padding: 0px}
+            #message{width: 100%;line-height: 20px;font-size: 14px;color: #ff4400;}
             #ID_clippingImageH5_btn{display: inline-block;
                 background-color: #068E43;
                 border: 1px solid #007941;
@@ -28,15 +29,16 @@
         <link type="text/css" href="dist/css/clippingImageH5.css" rel="stylesheet" />
     </head>
     <body>
+        <div id="message"></div>
         <div class="btn-row">
 
-            <div href="javascript:;" id="ID_clippingImageH5_btn">上传图片！abc </div>
+            <div href="javascript:;" id="ID_clippingImageH5_btn">上传图片upload </div>
 
         </div>
 
 
-<!--        <script src="bower_components/jquery-1.11.1/dist/jquery.min.js"></script>-->
-<!--        <script src="bower_components/jquery/dist/jquery.min.js"></script>-->
+        <!--        <script src="bower_components/jquery-1.11.1/dist/jquery.min.js"></script>-->
+        <!--        <script src="bower_components/jquery/dist/jquery.min.js"></script>-->
         <script src="bower_components/zepto-full/zepto.min.js"></script>
         <script src="dist/js/clippingImageH5.js"></script>
         <script>
@@ -54,13 +56,11 @@
                                                                                 imgBase64: "data:image/png;base64,iVBORw...."}
                                                                                 */
                                                                          //示例一：this.formData 可以用于ajax上传
-
-                                                                         //示例二：this.img 可以用于图像计算
-
                                                                          this.upload("upload.php",function(result){
-                                                                             console.log(result);
+                                                                            $("#message").html(result);
                                                                          });
-                                                                         //示例三：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储
+
+                                                                         //示例二：this.imgBase64 可以用于页面显示或者 input 赋值，方便数据库存储
                                                                          var img = new Image();
                                                                          img.src=this.imgBase64;
                                                                          $(img).css(
@@ -70,10 +70,11 @@
                                                                              }
                                                                          );
                                                                          $(".btn-row").append(img);
+                                                                         //此外：this.img 可以用于图像计算
                                                                      }
                                                                  },
                                                                  "canel":{
-                                                                     "btnTitle":"取消",
+                                                                     "btnTitle":"取消canel",
                                                                      "callback":function(){}
                                                                  }
                                                              }});
