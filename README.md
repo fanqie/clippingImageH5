@@ -1,17 +1,17 @@
 # ClippingImageH5
-
+===================================  
 HTML:
+===================================  
 ###
-<div class="btn-row">
-<div href="javascript:;" id="ID_clippingImageH5_btn">上传图片！abc </div>
-</div>
+<div class=\"btn-row\">
+<div href=\"javascript:;\" id=\"ID_clippingImageH5_btn\">上传图片！abc <\/div>
+<\/div>
 ###
 
-JS:
+JS调用:
+===================================  
 ###
 <script>
-//调用
-
 $Clip.setClipImage($("#ID_clippingImageH5_btn"),{"width":200,
 "height":200,
 "btn":{
