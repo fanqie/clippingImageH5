@@ -31,31 +31,38 @@
 
             this._Config.width = _Config.width||$Clip._Config.width;
             this._Config.height = _Config.height||$Clip._Config.height;
+            if(_Config.btn){
+                this._Config.btn.ok = _Config.btn.ok||$Clip._Config.btn.ok;
+                this._Config.btn.canel = _Config.btn.canel||$Clip._Config.btn.canel;
+            }
             this.height = $(window).height();
             this.width = $(window).width();
         },
         "addEvent":function(){
             var base=this;
             var $basebgMask = $("#"+this._Config.clipboxId+">.Dc_clipbox_Canvasbox>.Dc_clipbox_bgMask");
-
+            var btnH = $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox").height();
             //添加按钮事件
             //getImageData
-            $(".Dc_clipbox_btnbox>.Dc_clipbox_btn_ok").on("click",function(){
+            $("#"+this._Config.clipboxId+">.Dc_clipbox_btnbox>.Dc_clipbox_btn_ok").on("click",function(){
                 var data = {};
-                var x=base.width-base._Config.width/2;
-                var y=base.height-base._Config.height/2;
+                var x=(base.width-base._Config.width)/2;
+                var y=(base.height-btnH-base._Config.height)/2;
                 data.img = base.draw.getImageData(x,y,base._Config.width,base._Config.height);
                 var imgCanvas = document.createElement("canvas");
-                $(imgCanvas).width(base._Config.width);
-                $(imgCanvas).height(base._Config.height);
+                imgCanvas.setAttribute("width",base._Config.width);
+                imgCanvas.setAttribute("height",base._Config.height);
                 var imgctx = imgCanvas.getContext("2d");
                 imgctx.putImageData(data.img,0,0);
-
+                $("#"+base._Config.clipboxId).append(imgCanvas);
+                data.imgBase64=imgCanvas.toDataURL("image/png");
+                data.formdata=new FormData(data.imgBase64);
                 //获取 base64 的图片
-
-                imgCanvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
-                //data.Formdata= new FormData('userpic',data.img,'img.jpg');
-                base._Config.btn.ok.callback.call();
+                //console.log(imgCanvas.toDataURL("image/png"));
+                //imgCanvas.toDataURL("image/png");//.replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
+                //data.FormData= new FormData('userpic',data.img,'img.jpg');
+                base._Config.btn.ok.callback.call(data);
+                base.destroy();
             }).html(base._Config.btn.ok.btnTitle);
             //创建图像
             this.event = new $Clip.EventTool({
@@ -113,6 +120,10 @@
                 }}
                                             ).addEvents();
         },
+        "destroy":function(){
+            $("#"+this._Config.clipboxId).remove();
+        }
+        ,
         "getDistance":function (x1, x2, y1,y2) {
 
             var x = x2 - x1,
