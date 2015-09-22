@@ -7,12 +7,12 @@ HTML:
 <div class="btn-row">
 <div href="javascript:;" id="ID_clippingImageH5_btn">上传图片！abc </div>
 </div>
-###
 ```
 
 JS调用:
 ===================================  
 ```javascript
+<link type="text/css" href="dist/css/clippingImageH5.css" rel="stylesheet" />
 <script src="bower_components/zepto-full/zepto.min.js" ></script>
 <script src="dist/js/clippingImageH5.min.js"></script>
 <script>
