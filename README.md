@@ -1,7 +1,14 @@
 # ClippingImageH5
 ===================================  
+
 DEMO:
 ===================================
+![msee](http://http://muxing.in/cp/Screenshot/qrcode.png)
+![msee](http://http://muxing.in/cp/Screenshot/1.png)
+![msee](http://http://muxing.in/cp/Screenshot/2.png)
+![msee](http://http://muxing.in/cp/Screenshot/3.png)
+![msee](http://http://muxing.in/cp/Screenshot/4.png)
+![msee](http://http://muxing.in/cp/Screenshot/5.png)
 
 
 MATE:

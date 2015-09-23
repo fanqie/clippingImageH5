@@ -32,6 +32,11 @@ body{
     border: 1px solid #555;
     padding: 0px;
     margin: auto;
+    background-color: #068E43;
+    border: 1px solid #007941;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 14px;
 }
 .Dc_clipbox_btnbox>.Dc_clipbox_btn:focus {
     outline: none;

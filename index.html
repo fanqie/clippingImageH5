@@ -9,9 +9,12 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="Cache-Control" content="no-siteapp" />
         <style>
-
+            html{
+                height: 100%;
+                background-color: #ADE6AF;
+            }
             body{margin: 0px;padding: 0px}
-            #message{width: 100%;line-height: 20px;font-size: 14px;color: #ff4400;}
+            #message{width: 100%;line-height: 20px;font-size: 14px;color: #025F2B;}
             #ID_clippingImageH5_btn{display: inline-block;
                 background-color: #068E43;
                 border: 1px solid #007941;
@@ -57,7 +60,7 @@
                                                                                 */
                                                                          //示例一：this.formData 可以用于ajax上传
                                                                          this.upload("upload.php",function(result){
-                                                                            $("#message").html("上传成功，文件大小为："+result.file.size+"b");
+                                                                             $("#message").html("<br/>上传成功，文件大小为："+result.file.size+"b<br/>");
                                                                              setTimeout(function(){$("#message").html("");},2000);
                                                                          });
 
