@@ -3,12 +3,12 @@
 
 DEMO:
 ===================================
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/qrcode.png)
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/1.png)
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/2.png)
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/3.png)
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/4.png)
-![ClippingImageH5](http://http://muxing.in/cp/Screenshot/5.png)
+![ClippingImageH5](/Screenshot/qrcode.png)
+![ClippingImageH5](/Screenshot/1.png)
+![ClippingImageH5](/cp/Screenshot/2.png)
+![ClippingImageH5](/Screenshot/3.png)
+![ClippingImageH5](/cp/Screenshot/4.png)
+![ClippingImageH5](/cp/Screenshot/5.png)
 
 
 MATE:
