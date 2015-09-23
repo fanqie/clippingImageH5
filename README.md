@@ -1,20 +1,6 @@
 # ClippingImageH5
 ===================================  
 
-DEMO:
-===================================
-![ClippingImageH5](/Screenshot/qrcode.png)
-#
-![ClippingImageH5](/Screenshot/1.png)
-#
-![ClippingImageH5](/Screenshot/2.png)
-#
-![ClippingImageH5](/Screenshot/3.png)
-#
-![ClippingImageH5](/Screenshot/4.png)
-#
-![ClippingImageH5](/Screenshot/5.png)
-
 
 MATE:
 ===================================
@@ -52,7 +38,7 @@ $Clip.setClipImage($("#ID_clippingImageH5_btn"),{
             */
             //示例一：this.formData 可以用于ajax上传
             this.upload("upload.php",function(result){
-                $("#message").html("上传成功，文件大小为："+result.file.size+"b");
+                $("#message").html("<br>上传成功，文件大小为："+result.file.size+"b<br>");
                 setTimeout(function(){$("#message").html("");},2000);
             });
 
@@ -77,3 +63,17 @@ $Clip.setClipImage($("#ID_clippingImageH5_btn"),{
 }});
 </script>
 ```
+
+DEMO:
+===================================
+![ClippingImageH5](/Screenshot/qrcode.png)
+#
+![ClippingImageH5](/Screenshot/1.png)
+#
+![ClippingImageH5](/Screenshot/2.png)
+#
+![ClippingImageH5](/Screenshot/3.png)
+#
+![ClippingImageH5](/Screenshot/4.png)
+#
+![ClippingImageH5](/Screenshot/5.png)
